@@ -37,8 +37,11 @@ public class RunMain {
                 JFileChooser jFileChooser = new JFileChooser(LoadText.root);
                 jFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                 jFileChooser.showSaveDialog(null);
-                String path = jFileChooser.getSelectedFile().getPath();
-                System.out.println(path);
+                File selectedFile = jFileChooser.getSelectedFile();
+                if(selectedFile ==null){
+                    return;
+                }
+                String path = selectedFile.getPath();
                 saveUrl.setText(path);
 
             }
@@ -46,45 +49,50 @@ public class RunMain {
         runButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Thread(() -> {
-                    setArea("启动>>>>>>>>>>>>>>>>>>>>>>");
-                    setArea("文件存储目录：" + saveUrl.getText());
-                    String urlTextText = urlText.getText();
-                    setArea("从网站获取数据：" + urlTextText);
-                    List<TextFile> textFileList = LoadText.ddxs(urlTextText);
-                    if (textFileList == null) {
-                        setArea("无法访问到：" + urlTextText);
-                        return;
-                    }
-                    setArea("获取到目录：" + textFileList.size());
-
-                    setArea("开始获取正文。。。。。。");
+                if(!flag){
                     flag = true;
-                    int num = 0;
-                    for (TextFile textFile : textFileList) {
-                        if (!flag) {
+                    new Thread(() -> {
+                        setArea("启动>>>>>>>>>>>>>>>>>>>>>>");
+                        setArea("文件存储目录：" + saveUrl.getText());
+                        String urlTextText = urlText.getText();
+                        setArea("从网站获取数据：" + urlTextText);
+                        List<TextFile> textFileList = LoadText.ddxs(urlTextText);
+                        if (textFileList == null) {
+                            setArea("无法访问到：" + urlTextText);
                             return;
                         }
-                        System.out.println(saveUrl.getText());
-                        String path = saveUrl.getText() + "/" + textFile.getTitle() + "/";
-                        num++;
-                        String name = textFile.getName();
-                        String replace = name.replace("?", "");
-                        name = num + "." + replace;
-                        setArea(textFile.getName() + "校验文件是否存在?");
+                        setArea("获取到目录：" + textFileList.size());
+                        setArea("开始获取正文。。。。。。");
 
-                        File file = new File(path + name + ".txt");
-                        if (!file.exists()) {
-                            setArea(textFile.getName() + ":false");
-                            setArea("创建：" + name);
-                            String text = LoadText.urlToText(textFile.getUrl());
-                            LoadText.toFile(path, name, text);
-                        } else {
-                            setArea(textFile.getName() + ":true");
+                        int num = 0;
+                        for (TextFile textFile : textFileList) {
+                            if (!flag) {
+                                return;
+                            }
+                            System.out.println(saveUrl.getText());
+                            String path = saveUrl.getText() + "/" + textFile.getTitle() + "/";
+                            num++;
+                            String name = textFile.getName();
+                            String replace = name.replace("?", "");
+                            name = num + "." + replace;
+                            setArea(textFile.getName() + "校验文件是否存在?");
+
+                            File file = new File(path + name + ".txt");
+                            if (!file.exists()) {
+                                setArea(textFile.getName() + ":false");
+                                setArea("创建：" + name);
+                                String text = LoadText.urlToText(textFile.getUrl());
+                                LoadText.toFile(path, name, text);
+                            } else {
+                                setArea(textFile.getName() + ":true");
+                            }
+
                         }
+                    }).start();
+                }else {
+                    setArea("已经启动，无需再按");
+                }
 
-                    }
-                }).start();
 
             }
 
@@ -94,8 +102,14 @@ public class RunMain {
         stop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                flag = false;
-                setArea("stop");
+
+                if(flag){
+                    flag = false;
+                    setArea("stop");
+                }else {
+                    setArea("未启动，无需关闭");
+                }
+
             }
         });
     }

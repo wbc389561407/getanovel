@@ -62,49 +62,6 @@
                 </executions>
             </plugin>
 
-            <!--打包自己的代码-->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-jar-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <archive>-->
-<!--                        <manifest>-->
-<!--                            &lt;!&ndash; 添加依赖jar路径 &ndash;&gt;-->
-<!--&lt;!&ndash;                            <addClasspath>true</addClasspath>&ndash;&gt;-->
-<!--                            &lt;!&ndash; 入口程序-修改为自己的启动类名 &ndash;&gt;-->
-<!--                            <mainClass>com.nobug.util.RunMain</mainClass>-->
-<!--&lt;!&ndash;                            <classpathPrefix>../lib</classpathPrefix>&ndash;&gt;-->
-<!--                        </manifest>-->
-<!--                    </archive>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-            <!--打包自己的代码-->
-
-            <!--打包依赖到lib-->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-dependency-plugin</artifactId>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>copy-dependencies</id>-->
-<!--                        <phase>package</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>copy-dependencies</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            &lt;!&ndash; ${project.build.directory}target目录 &ndash;&gt;-->
-<!--                            <outputDirectory>${project.build.directory}/lib</outputDirectory>-->
-
-<!--                            &lt;!&ndash;                            &lt;!&ndash; 不复制间接依赖 &ndash;&gt;&ndash;&gt;-->
-<!--                            &lt;!&ndash;                            <excludeTransitive>true</excludeTransitive>&ndash;&gt;-->
-<!--                            &lt;!&ndash;                            <stripVersion>true</stripVersion>&ndash;&gt;-->
-<!--                            &lt;!&ndash;                            &lt;!&ndash; 不复制scope=provided的依赖包 &ndash;&gt;&ndash;&gt;-->
-<!--                            &lt;!&ndash;                            <excludeScope>provided</excludeScope>&ndash;&gt;-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-            <!--打包依赖到lib-->
         </plugins>
     </build>
 
